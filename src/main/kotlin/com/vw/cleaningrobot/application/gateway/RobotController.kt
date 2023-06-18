@@ -12,9 +12,6 @@ class RobotController(val robotDomainService: RobotDomainService) {
     @PostMapping("/start", produces = [MediaType.TEXT_PLAIN_VALUE])
     @ResponseStatus(HttpStatus.CREATED)
     fun startCleaning(@RequestBody dataInput: String) {
-        val robots = robotDomainService.executeRobots(dataInput)
-
-        robots.apply { println(this.toString()) }
-
+        robotDomainService.executeRobots(dataInput)
     }
 }

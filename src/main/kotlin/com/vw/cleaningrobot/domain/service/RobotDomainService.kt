@@ -4,6 +4,7 @@ import com.vw.cleaningrobot.domain.model.Direction
 import com.vw.cleaningrobot.domain.model.Move
 import com.vw.cleaningrobot.domain.model.Position
 import com.vw.cleaningrobot.domain.model.Robot
+import com.vw.cleaningrobot.logger
 import org.springframework.stereotype.Service
 import java.util.regex.Pattern
 
@@ -29,14 +30,17 @@ class RobotDomainService {
         val moveListIterator = moves.listIterator()
         var robotMoved: Robot? = null
 
-
         while (moveListIterator.hasNext()) {
             robotMoved = if (robotMoved != null) {
                 moveRobot(moveListIterator.next(), robotMoved)
+                    .apply { logger().debug("Robot moved: $this") }
             } else {
                 moveRobot(moveListIterator.next(), robot)
+                    .apply { logger().debug("Robot moved: $this") }
             }
         }
+
+        logger().info("Robot started at: (${robot.position.x},${robot.position.y})${robot.direction} and finished at: (${robotMoved!!.position.x},${robotMoved.position.y})${robotMoved.direction}")
 
         return robotMoved!!
     }
