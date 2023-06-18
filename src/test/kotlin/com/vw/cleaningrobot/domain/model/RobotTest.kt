@@ -98,4 +98,26 @@ class RobotTest {
         Assertions.assertThat(robotMovedForward.position.y).isEqualTo(0)
         Assertions.assertThat(robotMovedForward.direction).isEqualTo(Direction.E)
     }
+
+    @Test
+    fun `when moveForward from 0 0 S then new position is 0 0 S` () {
+        val robot = Robot(position = Position(0, 0), direction = Direction.S)
+
+        val robotMovedForward = robot.moveForward()
+
+        Assertions.assertThat(robotMovedForward.position.x).isEqualTo(0)
+        Assertions.assertThat(robotMovedForward.position.y).isEqualTo(0)
+        Assertions.assertThat(robotMovedForward.direction).isEqualTo(Direction.S)
+    }
+
+    @Test
+    fun `when moveForward from 0 0 W then new position is 0 0 W` () {
+        val robot = Robot(position = Position(0, 0), direction = Direction.W)
+
+        val robotMovedForward = robot.moveForward()
+
+        Assertions.assertThat(robotMovedForward.position.x).isEqualTo(0)
+        Assertions.assertThat(robotMovedForward.position.y).isEqualTo(0)
+        Assertions.assertThat(robotMovedForward.direction).isEqualTo(Direction.W)
+    }
 }
