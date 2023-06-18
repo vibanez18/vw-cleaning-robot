@@ -1,6 +1,6 @@
 package com.vw.cleaningrobot.domain.model
 
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class RobotTest {
@@ -11,7 +11,7 @@ class RobotTest {
 
         val robotMovedLeft = robot.moveLeft()
 
-        Assertions.assertThat(robotMovedLeft.direction).isEqualTo(Direction.W)
+        assertThat(robotMovedLeft.direction).isEqualTo(Direction.W)
     }
 
     @Test
@@ -20,7 +20,7 @@ class RobotTest {
 
         val robotMovedLeft = robot.moveLeft()
 
-        Assertions.assertThat(robotMovedLeft.direction).isEqualTo(Direction.S)
+        assertThat(robotMovedLeft.direction).isEqualTo(Direction.S)
     }
 
     @Test
@@ -29,7 +29,7 @@ class RobotTest {
 
         val robotMovedLeft = robot.moveLeft()
 
-        Assertions.assertThat(robotMovedLeft.direction).isEqualTo(Direction.E)
+        assertThat(robotMovedLeft.direction).isEqualTo(Direction.E)
     }
 
     @Test
@@ -38,7 +38,7 @@ class RobotTest {
 
         val robotMovedLeft = robot.moveLeft()
 
-        Assertions.assertThat(robotMovedLeft.direction).isEqualTo(Direction.N)
+        assertThat(robotMovedLeft.direction).isEqualTo(Direction.N)
     }
 
     @Test
@@ -47,7 +47,7 @@ class RobotTest {
 
         val robotMovedRight = robot.moveRight()
 
-        Assertions.assertThat(robotMovedRight.direction).isEqualTo(Direction.E)
+        assertThat(robotMovedRight.direction).isEqualTo(Direction.E)
     }
 
     @Test
@@ -56,7 +56,7 @@ class RobotTest {
 
         val robotMovedRight = robot.moveRight()
 
-        Assertions.assertThat(robotMovedRight.direction).isEqualTo(Direction.S)
+        assertThat(robotMovedRight.direction).isEqualTo(Direction.S)
     }
 
     @Test
@@ -65,7 +65,7 @@ class RobotTest {
 
         val robotMovedRight = robot.moveRight()
 
-        Assertions.assertThat(robotMovedRight.direction).isEqualTo(Direction.W)
+        assertThat(robotMovedRight.direction).isEqualTo(Direction.W)
     }
 
     @Test
@@ -74,7 +74,7 @@ class RobotTest {
 
         val robotMovedRight = robot.moveRight()
 
-        Assertions.assertThat(robotMovedRight.direction).isEqualTo(Direction.N)
+        assertThat(robotMovedRight.direction).isEqualTo(Direction.N)
     }
 
     @Test
@@ -83,9 +83,9 @@ class RobotTest {
 
         val robotMovedForward = robot.moveForward()
 
-        Assertions.assertThat(robotMovedForward.position.x).isEqualTo(0)
-        Assertions.assertThat(robotMovedForward.position.y).isEqualTo(1)
-        Assertions.assertThat(robotMovedForward.direction).isEqualTo(Direction.N)
+        assertThat(robotMovedForward.position.x).isEqualTo(0)
+        assertThat(robotMovedForward.position.y).isEqualTo(1)
+        assertThat(robotMovedForward.direction).isEqualTo(Direction.N)
     }
 
     @Test
@@ -94,9 +94,9 @@ class RobotTest {
 
         val robotMovedForward = robot.moveForward()
 
-        Assertions.assertThat(robotMovedForward.position.x).isEqualTo(1)
-        Assertions.assertThat(robotMovedForward.position.y).isEqualTo(0)
-        Assertions.assertThat(robotMovedForward.direction).isEqualTo(Direction.E)
+        assertThat(robotMovedForward.position.x).isEqualTo(1)
+        assertThat(robotMovedForward.position.y).isEqualTo(0)
+        assertThat(robotMovedForward.direction).isEqualTo(Direction.E)
     }
 
     @Test
@@ -105,9 +105,9 @@ class RobotTest {
 
         val robotMovedForward = robot.moveForward()
 
-        Assertions.assertThat(robotMovedForward.position.x).isEqualTo(0)
-        Assertions.assertThat(robotMovedForward.position.y).isEqualTo(0)
-        Assertions.assertThat(robotMovedForward.direction).isEqualTo(Direction.S)
+        assertThat(robotMovedForward.position.x).isEqualTo(0)
+        assertThat(robotMovedForward.position.y).isEqualTo(0)
+        assertThat(robotMovedForward.direction).isEqualTo(Direction.S)
     }
 
     @Test
@@ -116,8 +116,8 @@ class RobotTest {
 
         val robotMovedForward = robot.moveForward()
 
-        Assertions.assertThat(robotMovedForward.position.x).isEqualTo(0)
-        Assertions.assertThat(robotMovedForward.position.y).isEqualTo(0)
-        Assertions.assertThat(robotMovedForward.direction).isEqualTo(Direction.W)
+        assertThat(robotMovedForward.position.x).isEqualTo(0)
+        assertThat(robotMovedForward.position.y).isEqualTo(0)
+        assertThat(robotMovedForward.direction).isEqualTo(Direction.W)
     }
 }

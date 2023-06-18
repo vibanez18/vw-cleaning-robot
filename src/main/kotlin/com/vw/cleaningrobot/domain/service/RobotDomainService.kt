@@ -11,6 +11,7 @@ import java.util.regex.Pattern
 class RobotDomainService {
 
     companion object {
+        const val LINE_DELIMITER = " "
         val VALID_LINE_ROBOT: Pattern = Pattern.compile("^\\d \\d [NSEW]", Pattern.DOTALL)
         val VALID_LINE_MOVEMENTS_ROBOT: Pattern = Pattern.compile("[LMR]*\$", Pattern.DOTALL)
     }
@@ -30,7 +31,7 @@ class RobotDomainService {
 
 
         while (moveListIterator.hasNext()) {
-            robotMoved = if(robotMoved != null) {
+            robotMoved = if (robotMoved != null) {
                 moveRobot(moveListIterator.next(), robotMoved)
             } else {
                 moveRobot(moveListIterator.next(), robot)
@@ -48,13 +49,13 @@ class RobotDomainService {
 
 
     private fun validateLines(lines: List<String>): List<String> =
-        lines.filter { VALID_LINE_ROBOT.matcher(it).matches() || VALID_LINE_MOVEMENTS_ROBOT.matcher(it).matches() }
+        lines
+            .filter { VALID_LINE_ROBOT.matcher(it).matches() || VALID_LINE_MOVEMENTS_ROBOT.matcher(it).matches() }
+            .apply { if (this.size % 2 != 0) throw RobotDomainServiceException("Invalid number of robots and movements") }
 
 
     private fun lineToRobot(position: String): Robot {
-        val stringPositions = position.split(" ")
-
-        // TODO: add validations
+        val stringPositions = position.split(LINE_DELIMITER)
 
         return Robot(
             position = Position(stringPositions[0][0].digitToInt(), stringPositions[1][0].digitToInt()),
@@ -64,5 +65,7 @@ class RobotDomainService {
 
     private fun lineToMoves(moves: String): List<Move> = moves.map { it.toMove() }
 }
+
+class RobotDomainServiceException(msg: String) : RuntimeException(msg)
 
 fun Char.toMove(): Move = Move.valueOf(this.toString())
