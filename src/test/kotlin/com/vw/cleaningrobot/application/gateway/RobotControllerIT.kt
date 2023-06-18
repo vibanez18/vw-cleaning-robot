@@ -24,16 +24,32 @@ class RobotControllerIT {
 	var robotDomainService: RobotDomainService = RobotDomainService()
 
 	@Test
-	fun `when call start with happy path returns 201`() {
+	fun `when call start endpoint with happy path returns 201`() {
 		mockMvc.perform(MockMvcRequestBuilders.post("/cleaning/start")
 			.contentType(MediaType.TEXT_PLAIN_VALUE)
 			.content(generateHappyPathDataInput())
 		).andExpect(status().isCreated)
 	}
 
+	@Test
+	fun `when call start endpoint with wrong data input returns 400`() {
+		mockMvc.perform(MockMvcRequestBuilders.post("/cleaning/start")
+			.contentType(MediaType.TEXT_PLAIN_VALUE)
+			.content(generateWrongInitialPositionDataInput())
+		).andExpect(status().is4xxClientError)
+	}
+
 	private fun generateHappyPathDataInput() = """
         5 5
         1 2 N
+        LMLMLMLMM
+        3 3 E
+        MMRMMRMRRM
+    """.trimIndent()
+
+	private fun generateWrongInitialPositionDataInput() = """
+        5 5
+        1 2 N 1 2
         LMLMLMLMM
         3 3 E
         MMRMMRMRRM
