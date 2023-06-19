@@ -9,9 +9,13 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/cleaning")
 class RobotController(val robotDomainService: RobotDomainService) {
 
-    @PostMapping("/start", produces = [MediaType.TEXT_PLAIN_VALUE])
+    @PostMapping("/start", produces = [MediaType.TEXT_PLAIN_VALUE], consumes = [MediaType.TEXT_PLAIN_VALUE])
     @ResponseStatus(HttpStatus.CREATED)
-    fun startCleaning(@RequestBody dataInput: String) {
-        robotDomainService.executeRobots(dataInput)
+    fun startCleaning(@RequestBody dataInput: String): String = robotDomainService.executeRobots(dataInput).map {
+       "${it.endingPosition!!.x} ${it.endingPosition.y} ${it.startingDirection}\n"
     }
+        .toString()
+        .replace("[", "")
+        .replace("]", "")
+        .replace(",", "")
 }
