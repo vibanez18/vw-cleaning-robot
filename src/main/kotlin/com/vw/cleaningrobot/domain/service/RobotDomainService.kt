@@ -1,15 +1,13 @@
 package com.vw.cleaningrobot.domain.service
 
-import com.vw.cleaningrobot.domain.model.Direction
-import com.vw.cleaningrobot.domain.model.Move
-import com.vw.cleaningrobot.domain.model.Position
-import com.vw.cleaningrobot.domain.model.Robot
+import com.vw.cleaningrobot.domain.model.*
+import com.vw.cleaningrobot.domain.repository.RobotCleaningDomainRepository
 import com.vw.cleaningrobot.logger
 import org.springframework.stereotype.Service
 import java.util.regex.Pattern
 
 @Service
-class RobotDomainService {
+class RobotDomainService(val robotCleaningRepository: RobotCleaningDomainRepository) {
 
     companion object {
         const val LINE_DELIMITER = " "
@@ -17,7 +15,7 @@ class RobotDomainService {
         val VALID_LINE_MOVEMENTS_ROBOT: Pattern = Pattern.compile("[LMR]*\$", Pattern.DOTALL)
     }
 
-    fun executeRobots(dataInput: String): List<Robot> {
+    fun executeRobots(dataInput: String): List<RobotCleaning> {
         val lines = dataInput.split("\n")
         val validatedLines = validateLines(lines)
 
@@ -26,7 +24,7 @@ class RobotDomainService {
             .toList()
     }
 
-    private fun executeRobot(robot: Robot, moves: List<Move>): Robot {
+    private fun executeRobot(robot: Robot, moves: List<Move>): RobotCleaning {
         val moveListIterator = moves.listIterator()
         var robotMoved: Robot? = null
 
@@ -40,9 +38,11 @@ class RobotDomainService {
             }
         }
 
-        logger().info("Robot started at: (${robot.position.x},${robot.position.y})${robot.direction} and finished at: (${robotMoved!!.position.x},${robotMoved.position.y})${robotMoved.direction}")
+        val saveOrUpdateRobot = robotCleaningRepository.saveOrUpdateRobot(RobotCleaningFactory.withEndingRobot(robotMoved!!))
 
-        return robotMoved!!
+        logger().info("Robot started at: (${saveOrUpdateRobot.startingPosition?.x},${saveOrUpdateRobot.startingPosition?.y})${saveOrUpdateRobot.startingDirection} and finished at: (${saveOrUpdateRobot.endingPosition?.x},${saveOrUpdateRobot.endingPosition?.y})${saveOrUpdateRobot.endingDirection}")
+
+        return saveOrUpdateRobot
     }
 
     private fun moveRobot(move: Move, robot: Robot): Robot = when (move) {
@@ -61,10 +61,14 @@ class RobotDomainService {
     private fun lineToRobot(position: String): Robot {
         val stringPositions = position.split(LINE_DELIMITER)
 
-        return Robot(
+        val robot = Robot(
             position = Position(stringPositions[0][0].digitToInt(), stringPositions[1][0].digitToInt()),
             direction = Direction.valueOf(stringPositions[2])
         )
+
+        val saveRobot = robotCleaningRepository.saveOrUpdateRobot(RobotCleaningFactory.withStartingRobot(robot))
+
+        return robot.copy(id = saveRobot.id)
     }
 
     private fun lineToMoves(moves: String): List<Move> = moves.map { it.toMove() }

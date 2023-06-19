@@ -1,9 +1,14 @@
 package com.vw.cleaningrobot.application.gateway
 
+import com.vw.cleaningrobot.domain.repository.RobotCleaningDomainRepository
 import com.vw.cleaningrobot.domain.service.RobotDomainService
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
+import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.http.MediaType
@@ -14,14 +19,19 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @ExtendWith(SpringExtension::class)
 @WebMvcTest
-@ComponentScan("com.vw.cleaningrobot")
+@AutoConfigureDataJpa
+@AutoConfigureTestDatabase
+@ComponentScan("com.vw.cleaningrobot.*")
 class RobotControllerIT {
 
 	@Autowired
 	lateinit var mockMvc: MockMvc
 
+    @Autowired
+	lateinit var robotDomainService: RobotDomainService
+
 	@Autowired
-	var robotDomainService: RobotDomainService = RobotDomainService()
+    lateinit var robotCleaningRepository: RobotCleaningDomainRepository
 
 	@Test
 	fun `when call start endpoint with happy path returns 201`() {

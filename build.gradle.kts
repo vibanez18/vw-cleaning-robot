@@ -6,10 +6,15 @@ plugins {
 	kotlin("jvm") version "1.8.21"
 	kotlin("plugin.spring") version "1.8.21"
 	kotlin("plugin.jpa") version "1.8.21"
+	kotlin("plugin.allopen") version "1.8.0"
 }
 
 group = "com.vw"
 version = "0.0.1-SNAPSHOT"
+
+allOpen {
+	annotation("jakarta.persistence.Entity")
+}
 
 java {
 	sourceCompatibility = JavaVersion.VERSION_17
@@ -20,12 +25,14 @@ repositories {
 }
 
 dependencies {
-//	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	runtimeOnly("com.h2database:h2")
+	runtimeOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-//	testImplementation("io.mockk:mockk:1.13.5")
+	testImplementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
 }
 
 tasks.withType<KotlinCompile> {
