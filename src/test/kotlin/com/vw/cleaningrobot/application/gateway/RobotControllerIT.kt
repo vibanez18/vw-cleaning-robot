@@ -49,6 +49,14 @@ class RobotControllerIT {
 		).andExpect(status().is4xxClientError)
 	}
 
+	@Test
+	fun `when call start endpoint with incorrect file input returns 400`() {
+		mockMvc.perform(MockMvcRequestBuilders.post("/cleaning/start")
+			.contentType(MediaType.TEXT_PLAIN_VALUE)
+			.content(generateWrongInitialPositionDataInput_2())
+		).andExpect(status().is4xxClientError)
+	}
+
 	private fun generateHappyPathDataInput() = """
         5 5
         1 2 N
@@ -61,6 +69,16 @@ class RobotControllerIT {
         5 5
         1 2 N 1 2
         LMLMLMLMM
+        3 3 E
+        MMRMMRMRRM
+    """.trimIndent()
+
+	private fun generateWrongInitialPositionDataInput_2() = """
+        5 5
+        1 2 N 1 2
+		5 5
+        LMLMLMLMM
+		5 5
         3 3 E
         MMRMMRMRRM
     """.trimIndent()
