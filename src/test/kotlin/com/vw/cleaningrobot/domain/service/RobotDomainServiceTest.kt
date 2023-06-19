@@ -28,18 +28,41 @@ class RobotDomainServiceTest {
             .thenReturn(RobotCleaning(id = 1, startingPosition = Position(1, 2), startingDirection = Direction.N))
         whenever(robotCleaningDomainRepository.saveOrUpdateRobot(RobotCleaning(startingPosition = Position(3, 3), startingDirection = Direction.E)))
             .thenReturn(RobotCleaning(id = 2, startingPosition = Position(3, 3), startingDirection = Direction.E))
-        whenever(robotCleaningDomainRepository.saveOrUpdateRobot(RobotCleaning(id = 1, endingPosition = Position(1, 3), endingDirection = Direction.N)))
-            .thenReturn(
+
+        whenever(
+            robotCleaningDomainRepository.saveOrUpdateRobot(
                 RobotCleaning(
+                    id = 1,
                     startingPosition = Position(1, 2),
                     startingDirection = Direction.N,
                     endingPosition = Position(1, 3),
                     endingDirection = Direction.N
                 )
             )
-        whenever(robotCleaningDomainRepository.saveOrUpdateRobot(RobotCleaning(id = 2, endingPosition = Position(5, 1), endingDirection = Direction.E)))
+        )
             .thenReturn(
                 RobotCleaning(
+                    id = 1,
+                    startingPosition = Position(1, 2),
+                    startingDirection = Direction.N,
+                    endingPosition = Position(1, 3),
+                    endingDirection = Direction.N
+                )
+            )
+        whenever(
+            robotCleaningDomainRepository.saveOrUpdateRobot(
+                RobotCleaning(
+                    id = 2,
+                    startingPosition = Position(3, 3),
+                    startingDirection = Direction.E,
+                    endingPosition = Position(5, 1),
+                    endingDirection = Direction.E
+                )
+            )
+        )
+            .thenReturn(
+                RobotCleaning(
+                    id = 2,
                     startingPosition = Position(3, 3),
                     startingDirection = Direction.E,
                     endingPosition = Position(5, 1),
@@ -53,12 +76,14 @@ class RobotDomainServiceTest {
             .hasSize(2)
             .containsSequence(
                 RobotCleaning(
+                    id = 1,
                     startingPosition = Position(1, 2),
                     startingDirection = Direction.N,
                     endingPosition = Position(1, 3),
                     endingDirection = Direction.N
                 ),
                 RobotCleaning(
+                    id = 2,
                     startingPosition = Position(3, 3),
                     startingDirection = Direction.E,
                     endingPosition = Position(5, 1),
@@ -69,7 +94,7 @@ class RobotDomainServiceTest {
     }
 
     @Test
-    fun `when executeRobots with invalid data throws exception` () {
+    fun `when executeRobots with invalid data throws exception`() {
         assertThatThrownBy { robotDomainService.executeRobots(generateWrongInitialPositionDataInput()) }
             .isInstanceOf(RobotDomainServiceException::class.java)
             .hasMessage("Invalid number of robots and movements")

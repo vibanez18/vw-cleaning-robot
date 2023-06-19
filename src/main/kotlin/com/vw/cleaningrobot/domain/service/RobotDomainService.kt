@@ -26,19 +26,14 @@ class RobotDomainService(val robotCleaningRepository: RobotCleaningDomainReposit
 
     private fun executeRobot(robot: Robot, moves: List<Move>): RobotCleaning {
         val moveListIterator = moves.listIterator()
-        var robotMoved: Robot? = null
+        var robotMoved = robot
 
         while (moveListIterator.hasNext()) {
-            robotMoved = if (robotMoved != null) {
-                moveRobot(moveListIterator.next(), robotMoved)
-                    .apply { logger().debug("Robot moved: $this") }
-            } else {
-                moveRobot(moveListIterator.next(), robot)
-                    .apply { logger().debug("Robot moved: $this") }
-            }
+            robotMoved = moveRobot(moveListIterator.next(), robotMoved)
+                .apply { logger().debug("Robot moved: $this") }
         }
 
-        val saveOrUpdateRobot = robotCleaningRepository.saveOrUpdateRobot(RobotCleaningFactory.withEndingRobot(robotMoved!!))
+        val saveOrUpdateRobot = robotCleaningRepository.saveOrUpdateRobot(RobotCleaningFactory.withStartingRobotAndEndingRobot(robot, robotMoved))
 
         logger().info("Robot started at: (${saveOrUpdateRobot.startingPosition?.x},${saveOrUpdateRobot.startingPosition?.y})${saveOrUpdateRobot.startingDirection} and finished at: (${saveOrUpdateRobot.endingPosition?.x},${saveOrUpdateRobot.endingPosition?.y})${saveOrUpdateRobot.endingDirection}")
 

@@ -7,8 +7,10 @@ object RobotCleaningFactory {
         startingDirection = startingRobot.direction,
     )
 
-    fun withEndingRobot(endingRobot: Robot): RobotCleaning = RobotCleaning(
+    fun withStartingRobotAndEndingRobot(startingRobot: Robot, endingRobot: Robot): RobotCleaning = RobotCleaning(
         id = endingRobot.id,
+        startingPosition = startingRobot.position,
+        startingDirection = startingRobot.direction,
         endingPosition = endingRobot.position,
         endingDirection = endingRobot.direction
     )
