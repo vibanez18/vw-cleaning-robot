@@ -37,7 +37,8 @@ after the first one has finished.
 
 - The robot only works with a valid input file
 - If the robot collides with a side then it is in the same position
-- The Workspace will be delimited by first input file and (0,0)
+- The Workspace will be delimited by the position (0,0) and first input file (workspace)
+- The output is sending to the client for each input file at the end of the processing 
 
 ## To run
 ### Execute app
@@ -46,5 +47,6 @@ after the first one has finished.
 ### H2 console
 
 - [Web console](http://localhost:8080/h2-console)
-- user: sa
-- pass:
+
+    user: sa
+    pass:
