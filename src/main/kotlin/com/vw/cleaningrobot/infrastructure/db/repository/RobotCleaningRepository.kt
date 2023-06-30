@@ -5,10 +5,8 @@ import com.vw.cleaningrobot.domain.model.Position
 import com.vw.cleaningrobot.domain.model.RobotCleaning
 import com.vw.cleaningrobot.domain.repository.RobotCleaningDomainRepository
 import com.vw.cleaningrobot.infrastructure.db.entity.RobotCleaningEntity
-import org.springframework.stereotype.Component
 
-@Component
-class RobotCleaningRepository(val robotCleaningJpaRepository: RobotCleaningJpaRepository) : RobotCleaningDomainRepository {
+class RobotCleaningRepository(private val robotCleaningJpaRepository: RobotCleaningJpaRepository) : RobotCleaningDomainRepository {
     override fun saveOrUpdateRobot(robotCleaning: RobotCleaning): RobotCleaning {
         val saveEntity = robotCleaningJpaRepository.save(RobotCleaningEntityMapper.fromRobotCleaning(robotCleaning))
 

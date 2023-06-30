@@ -1,4 +1,4 @@
-package com.vw.cleaningrobot.application.gateway
+package com.vw.cleaningrobot.infrastructure.rest
 
 import com.vw.cleaningrobot.domain.service.RobotDomainServiceException
 import com.vw.cleaningrobot.logger

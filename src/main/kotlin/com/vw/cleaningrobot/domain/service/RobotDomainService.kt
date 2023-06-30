@@ -3,11 +3,9 @@ package com.vw.cleaningrobot.domain.service
 import com.vw.cleaningrobot.domain.model.*
 import com.vw.cleaningrobot.domain.repository.RobotCleaningDomainRepository
 import com.vw.cleaningrobot.logger
-import org.springframework.stereotype.Service
 import java.util.regex.Pattern
 
-@Service
-class RobotDomainService(val robotCleaningRepository: RobotCleaningDomainRepository) {
+class RobotDomainService(private val robotCleaningRepository: RobotCleaningDomainRepository) {
 
     companion object {
         val VALID_WORKSPACE: Pattern = Pattern.compile("^[123456789][123456789]", Pattern.DOTALL)
